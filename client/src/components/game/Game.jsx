@@ -1,3 +1,4 @@
+import { Link } from "react-router"
 export default function Games({
   _id,
   title,
@@ -14,9 +15,9 @@ _createdOn,
         <div className="details-overlay">
           <p className="name">{title}</p>
           <p className="genre">{genre}</p>
-          <a href="#" className="details-button">
-            {summary}
-          </a>
+          <Link to={`/games/${_id}/details`} className="details-button" >
+            Details
+          </Link>
         </div>
       </div>
     )

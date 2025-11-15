@@ -3,6 +3,7 @@ import Header from "./components/header/Header"
 import Footer from "./components/footer/Footer"
 import Home from "./components/home/Home"
 import Catalog from "./components/catalog/Catalog"
+import Details from "./components/details/Details"
 
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/catalog" element={<Catalog/>}/>
+        <Route path="/games/:_id/details" element={<Details/>}/>
       </Routes>
       <Footer />
 
