@@ -4,6 +4,7 @@ import Footer from "./components/footer/Footer"
 import Home from "./components/home/Home"
 import Catalog from "./components/catalog/Catalog"
 import Details from "./components/details/Details"
+import AddGame from "./components/addGames/AddGames"
 
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/catalog" element={<Catalog/>}/>
         <Route path="/games/:_id/details" element={<Details/>}/>
+        <Route path="/addGame" element={<AddGame/>}/>
       </Routes>
       <Footer />
 
