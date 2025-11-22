@@ -57,7 +57,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/catalog" element={<Catalog />} />
-        <Route path="/games/:_id/details" element={<Details />} />
+        <Route path="/games/:id/details" element={<Details />} />
         <Route path="/games/:id/edit" element={<Edit/>}/>
         <Route path="/addGame" element={<AddGame />} />
         <Route path="/register" element={<Register user={userRegister} onRegister={registerUser} />} />

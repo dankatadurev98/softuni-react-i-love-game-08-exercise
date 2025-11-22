@@ -13,22 +13,22 @@ export default function Details() {
         return;
        }
 
-       fetch(`${basicUrl}/${_id}`,{
+       fetch(`${basicUrl}/${id}`,{
         method:"DELETE",
        })
 
        redirect('/')
     }
 
-    const { _id } = useParams();
+    const { id } = useParams();
 
     let basicUrl = 'http://localhost:3030/jsonstore/games'
 
-    const [details, setDetails] = useState([])
+    const [details, setDetails] = useState({})
 
 
     useEffect(() => {
-        fetch(`${basicUrl}/${_id}`)
+        fetch(`${basicUrl}/${id}`)
             .then(res => res.json())
             .then(data => {
                 setDetails(data)
@@ -36,7 +36,7 @@ export default function Details() {
             .catch(() => {
                 console.log(`problem with details fetch`)
             })
-    }, [_id])
+    }, [id])
 
     return (
         <section id="game-details">
@@ -72,7 +72,7 @@ export default function Details() {
                 </div>
                 {/* Edit/Delete buttons ( Only for creator of this game )  */}
                 <div className="buttons">
-                    <Link to="/games/:id/edit" className="button">
+                    <Link to={`/games/${id}/edit`} className="button">
                         Edit
                     </Link>
                     <button className="button" onClick={deleteFunction}>Delete</button>
