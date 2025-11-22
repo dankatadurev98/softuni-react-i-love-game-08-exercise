@@ -10,23 +10,26 @@ import Details from "./components/details/Details"
 import AddGame from "./components/addGames/AddGames"
 import Register from "./components/register/Register"
 import Login from "./components/login/Login"
+import Logout from "./components/logout/Logout"
 
 
 function App() {
 
   const [userRegister, setUserRegister] = useState([])
   const [userLogin, setUserLogin] = useState(null)
-  const navigator = useNavigate()
 
 
   function registerUser(email, password) {
 
     if (userRegister.some(user => user.email === email)) {
-      alert('Email is taken!')
-      navigator('/')
-      return
+      throw new Error('Email is taken!')
     }
-    setUserRegister(state => [...state, { email, password }])
+    const newUser = {email,password};
+
+
+    setUserRegister(state => [...state, newUser]);
+
+    setUserLogin(newUser)
   }
 
 
@@ -35,15 +38,15 @@ function App() {
     const user = userRegister.find(user => user.email === email && user.password === password)
 
     if (!user) {
-      navigator('/login')
-      alert('Invalid email or password')
-      return
+      throw new Error('Invalid email or password')
 
     } 
    
     setUserLogin(user)
+  }
 
-
+  function userLogout(){
+    setUserLogin(null)
   }
 
   return (
@@ -57,6 +60,7 @@ function App() {
         <Route path="/addGame" element={<AddGame />} />
         <Route path="/register" element={<Register user={userRegister} onRegister={registerUser} />} />
         <Route path='/login' element={<Login user={userLogin} onLogin={loginUser} />} />
+        <Route path="/logout" element={<Logout onLogout={userLogout}/>}/>
       </Routes>
       <Footer />
 
