@@ -24,7 +24,7 @@ export default function Register({
            return alert('Passwords must be the same!')
         }
 
-       onRegister(email)
+       onRegister(email,password)
        navigator('/')
        
     }
