@@ -1,4 +1,26 @@
+import { useState } from "react"
+
 export default function Edit(){
+
+    const initialValues = {
+        title: '',
+        genre:'',
+        players:'',
+        date:'',
+        imageUrl:'',
+        summary:'',
+    }
+
+    const[values,setValues] = useState(initialValues)
+
+    function changeHandler(event){
+
+        setValues(state=>({
+            ...state,
+            [event.target.name]: event.target.value,
+    }))
+
+    }
     return(
         <section id="edit-page">
   <form id="add-new-game">
@@ -9,7 +31,9 @@ export default function Edit(){
         <input
           type="text"
           id="gameName"
-          name="gameName"
+          name="title"
+          onChange={changeHandler}
+          value={values.name}
           placeholder="Enter game title..."
         />
       </div>
@@ -19,6 +43,8 @@ export default function Edit(){
           type="text"
           id="genre"
           name="genre"
+          onChange={changeHandler}
+          value={values.genre}
           placeholder="Enter game genre..."
         />
       </div>
@@ -27,14 +53,16 @@ export default function Edit(){
         <input
           type="number"
           id="activePlayers"
-          name="activePlayers"
+          name="players"
+          onChange={changeHandler}
+          value={values.players}
           min={0}
           placeholder={0}
         />
       </div>
       <div className="form-group-half">
         <label htmlFor="releaseDate">Release Date:</label>
-        <input type="date" id="releaseDate" name="releaseDate" />
+        <input type="date" id="releaseDate" name="date" />
       </div>
       <div className="form-group-full">
         <label htmlFor="imageUrl">Image URL:</label>
@@ -42,6 +70,8 @@ export default function Edit(){
           type="text"
           id="imageUrl"
           name="imageUrl"
+          onChange={changeHandler}
+          value={values.imageUrl}
           placeholder="Enter image URL..."
         />
       </div>
@@ -49,6 +79,8 @@ export default function Edit(){
         <label htmlFor="summary">Summary:</label>
         <textarea
           name="summary"
+          onChange={changeHandler}
+          value={values.summary}
           id="summary"
           rows={5}
           placeholder="Write a brief summary..."
