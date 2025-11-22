@@ -14,28 +14,7 @@ export default function Login() {
             password
         }
 
-        fetch('http://localhost:3030/users/login', {
-            method: "POST",
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(finalData)
-        })
-            .then(res => {
-                if (!res.ok) {
-                    alert('User or password incorrect!')
-                    throw new Error('Invalid login')
-                }
-                return res.json()
-            })
-            .then(data => {
-                console.log(data)
-                localStorage.setItem('accessToken',data.accessToken);
-                navigate('/')
-            })
-            .catch(data => {
-                console.log('Problem with login fetch request!')
-                console.log(data)
-            })
-    }
+    }  
 
     return (
         <section id="login-page">

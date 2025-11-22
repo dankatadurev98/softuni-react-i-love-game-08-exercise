@@ -1,54 +1,32 @@
 import { useNavigate } from "react-router";
 
 
-export default function Register() {
+export default function Register({
+   user,
+   onRegister
+}) {
+
+    
 
     const navigator = useNavigate();
 
     function registerSubmit(data){
         
-        
-        
         let email = data.get('email');
         let password = data.get('password')
         let confirmPassword = data.get('confirm-password')
 
-        console.log(email);
-        console.log(password);
-        console.log(confirmPassword);
-
         
-        let finalData = {
-            email,
-            password,
+        if(!email || !password){
+            return alert('Email and Password are required!')
         }
-        
-
-        if(password === confirmPassword) {
-            fetch('http://localhost:3030/users/register',{
-                method:"POST",
-                headers:{'Content-Type':'application/json'},
-                body:JSON.stringify(finalData)
-            })
-            .then(res=>{
-                res.json()
-            })
-            .then(data=>{
-                console.log(data)
-                navigator('/')
-            })
-            .catch(info=>{
-                console.log(`Problem with fetch register.`)
-                console.log(info)
-            })
-        } else {
-            alert('The 2 password fields must be the same in order to make a correct registration!')
+        if(password !== confirmPassword){
+           return alert('Passwords must be the same!')
         }
-        
-            
-        
-        
-        
+
+       onRegister(email)
+       navigator('/')
+       
     }
 
     return (
@@ -56,6 +34,7 @@ export default function Register() {
             <form id="register" action={registerSubmit}>
                 <div className="container">
                     <div className="brand-logo" />
+                    {user && <h2>You are already registered with {user.email}</h2>}
                     <h1>Register</h1>
                     <label htmlFor="email">Email:</label>
                     <input type="email" id="email" name="email" placeholder="Your Email" />
