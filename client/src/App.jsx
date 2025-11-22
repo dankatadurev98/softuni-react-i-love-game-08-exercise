@@ -11,6 +11,7 @@ import AddGame from "./components/addGames/AddGames"
 import Register from "./components/register/Register"
 import Login from "./components/login/Login"
 import Logout from "./components/logout/Logout"
+import Edit from "./components/edit/Edit"
 
 
 function App() {
@@ -57,6 +58,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/catalog" element={<Catalog />} />
         <Route path="/games/:_id/details" element={<Details />} />
+        <Route path="/games/:id/edit" element={<Edit/>}/>
         <Route path="/addGame" element={<AddGame />} />
         <Route path="/register" element={<Register user={userRegister} onRegister={registerUser} />} />
         <Route path='/login' element={<Login user={userLogin} onLogin={loginUser} />} />
