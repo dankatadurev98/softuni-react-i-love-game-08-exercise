@@ -1,9 +1,13 @@
-import { useEffect } from "react";
-import { useNavigate } from "react-router";
+
+import { data, useNavigate } from "react-router";
+import { endpoints, request } from "../../requests/request";
+import { useContext } from "react";
+import { authContext } from "../../context/authContext";
 
 export default function AddGame(){
 
     let redirect = useNavigate()
+    const {user} = useContext(authContext)
 
 
     function onSubmit(event){
@@ -13,14 +17,21 @@ export default function AddGame(){
 
         let finalData = Object.fromEntries(info)
 
+       
         
-            fetch('http://localhost:3030/jsonstore/games',{
-                method:'POST',
-                headers:{'Content-Type':'application/json'},
-                body:JSON.stringify(finalData)
-            })
+        
+        request('POST',endpoints.games,finalData,user.accessToken)
+         .then(res=>{
+          console.log(res);
+           redirect('/')
+          
+         })
+         .catch(err=>{
+          console.log(err);
+          
+         })
 
-            redirect('/')
+           
         
     }
 

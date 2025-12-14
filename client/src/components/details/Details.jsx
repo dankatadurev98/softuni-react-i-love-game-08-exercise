@@ -1,42 +1,50 @@
 import { useEffect, useState } from "react";
-import { useNavigate, useParams ,Link} from "react-router"
+import { useNavigate, useParams, Link } from "react-router"
+import { endpoints, request } from "../../requests/request";
+import { useContext } from "react";
+import { authContext } from "../../context/authContext";
 
 
 export default function Details() {
 
-    let redirect = useNavigate();
+    let navigate = useNavigate();
+    const { user } = useContext(authContext)
 
-    function deleteFunction(){
-       const question= confirm(`Are you sure you want to delete: ${details.title} ?`);
 
-       if(!question){
-        return;
-       }
-
-       fetch(`${basicUrl}/${id}`,{
-        method:"DELETE",
-       })
-
-       redirect('/')
-    }
 
     const { id } = useParams();
 
-    let basicUrl = 'http://localhost:3030/jsonstore/games'
+
 
     const [details, setDetails] = useState({})
 
 
     useEffect(() => {
-        fetch(`${basicUrl}/${id}`)
-            .then(res => res.json())
+        request('GET', endpoints.gamesById(id))
             .then(data => {
                 setDetails(data)
             })
             .catch(() => {
                 console.log(`problem with details fetch`)
+                
             })
     }, [id])
+
+    function onDeleteHanlder() {
+
+        request('DELETE', endpoints.gamesById(id), undefined, user.accessToken)
+            .then(res => {
+                console.log(res);
+                navigate('/catalog')
+
+            })
+            .catch(err => {
+                console.log(err);
+
+            })
+    }
+
+
 
     return (
         <section id="game-details">
@@ -66,7 +74,7 @@ export default function Details() {
                     <div className="summary-section">
                         <h2>Summary:</h2>
                         <p className="text-summary">
-                           {details.summary}
+                            {details.summary}
                         </p>
                     </div>
                 </div>
@@ -75,8 +83,8 @@ export default function Details() {
                     <Link to={`/games/${id}/edit`} className="button">
                         Edit
                     </Link>
-                    <button className="button" onClick={deleteFunction}>Delete</button>
-                   
+                    <button className="button" onClick={onDeleteHanlder}>Delete</button>
+
                 </div>
                 <div className="details-comments">
                     <h2>Comments:</h2>
