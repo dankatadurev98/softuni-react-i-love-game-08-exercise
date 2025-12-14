@@ -1,18 +1,40 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router"
+import { useNavigate, useParams } from "react-router"
+import { endpoints, request } from "../../requests/request";
+import { useContext } from "react";
+import { authContext } from "../../context/authContext";
 
 export default function Edit() {
 
     let { id } = useParams();
-    console.log(id)
+    const {user} = useContext(authContext)
+    const navigate = useNavigate();
+   
 
     const [game, setGame] = useState(null)
 
     useEffect(() => {
-        fetch(`http://localhost:3030/data/games/${id}`)
-            .then(res => res.json())
+        request('GET',endpoints.gamesById(id))
             .then(data => setGame(data));
     }, [id]);
+
+
+    function onSubmitForm(formData){
+
+        let finalData = Object.fromEntries(formData);
+        
+        request("PUT",endpoints.gamesById(id),finalData,user.accessToken)
+        .then(res=>{
+            navigate('/catalog')
+        })
+        .catch(err=>{
+            console.log(err);
+            
+        })
+        }
+        
+    
+
 
    
 
@@ -26,7 +48,7 @@ export default function Edit() {
 
     return (
         <section id="edit-page">
-            <form id="add-new-game">
+            <form id="add-new-game" action={onSubmitForm}>
                 <div className="container">
                     <h1>Edit Game</h1>
                     <div className="form-group-half">

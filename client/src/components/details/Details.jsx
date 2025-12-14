@@ -34,7 +34,6 @@ export default function Details() {
 
         request('DELETE', endpoints.gamesById(id), undefined, user.accessToken)
             .then(res => {
-                console.log(res);
                 navigate('/catalog')
 
             })

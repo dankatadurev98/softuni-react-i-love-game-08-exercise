@@ -22,7 +22,6 @@ export default function AddGame(){
         
         request('POST',endpoints.games,finalData,user.accessToken)
          .then(res=>{
-          console.log(res);
            redirect('/')
           
          })

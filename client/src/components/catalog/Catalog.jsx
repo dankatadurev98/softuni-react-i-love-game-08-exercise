@@ -5,7 +5,6 @@ import { endpoints, request } from "../../requests/request"
 export default function Catalog() {
 
     const [games, setGames] = useState([])
-    console.log(endpoints.games);
     
 
     useEffect(() => {
