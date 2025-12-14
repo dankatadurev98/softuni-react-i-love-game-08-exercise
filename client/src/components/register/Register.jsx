@@ -1,32 +1,49 @@
 import { useNavigate } from "react-router";
+import { endpoints, request } from "../../requests/request";
+import { authContext } from "../../context/authContext";
+import { useContext } from "react";
 
 
-export default function Register({
-   user,
-   onRegister
-}) {
+export default function Register() {
 
-    
+
 
     const navigator = useNavigate();
+    const {login} = useContext(authContext)
 
-    function registerSubmit(data){
-        
-        let email = data.get('email');
-        let password = data.get('password')
-        let confirmPassword = data.get('confirm-password')
+    function registerSubmit(formData) {
 
-        
-        if(!email || !password){
+        let data = Object.fromEntries(formData)
+        const email = data.email;
+        const password = data.password;
+        const confirmPassword = data.confirmPassword;
+
+
+        if (!email || !password) {
             return alert('Email and Password are required!')
         }
-        if(password !== confirmPassword){
-           return alert('Passwords must be the same!')
+        if (password !== confirmPassword) {
+            return alert('Passwords must be the same!')
         }
 
-       onRegister(email,password)
-       navigator('/')
-       
+        const finalData = {
+            email,
+            password,
+        }
+
+        request('POST', endpoints.register, finalData)
+            .then(res => {
+                localStorage.setItem('user',JSON.stringify(res));
+                login(res)
+                console.log(res);
+                
+                navigator('/')
+            })
+            .catch(err => {
+                console.log(err);
+
+            })
+
     }
 
     return (
@@ -34,7 +51,7 @@ export default function Register({
             <form id="register" action={registerSubmit}>
                 <div className="container">
                     <div className="brand-logo" />
-                    {user && <h2>You are already registered with {user.email}</h2>}
+
                     <h1>Register</h1>
                     <label htmlFor="email">Email:</label>
                     <input type="email" id="email" name="email" placeholder="Your Email" />
@@ -48,8 +65,8 @@ export default function Register({
                     <label htmlFor="con-pass">Confirm Password:</label>
                     <input
                         type="password"
-                        name="confirm-password"
-                        id="confirm-password"
+                        name="confirmPassword"
+                        id="confirmPassword"
                         placeholder="Repeat Password"
                     />
                     <input className="btn submit" type="submit" defaultValue="Register" />

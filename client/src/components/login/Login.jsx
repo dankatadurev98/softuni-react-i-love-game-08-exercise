@@ -1,23 +1,41 @@
 import { useNavigate,Navigate } from "react-router";
+import { endpoints, request } from "../../requests/request";
+import { useContext } from "react";
+import { authContext } from "../../context/authContext";
 
-export default function Login({
-    user,
-    onLogin
-}) {
+export default function Login() {
 
     let navigate = useNavigate();
+    const {login,user} = useContext(authContext)
 
     function submitLogin(formData) {
 
-        let email = formData.get('email')
-        let password = formData.get('password');
+        let data = Object.fromEntries(formData);
 
-  
+        const email = data.email;
+        const password = data.password;
+        
 
-        onLogin(email,password)
+        let finalData = {
+            email,
+            password
+        }
+       
+       
     
+       request('POST',endpoints.login,finalData)
+        .then(res=>{
+            
+            login(res)
+            navigate('/')
+            
+        })
+        .catch(err=>{
+            console.log(err);
+            
+        })
 
-        navigate('/')
+        
     }  
 
     return (

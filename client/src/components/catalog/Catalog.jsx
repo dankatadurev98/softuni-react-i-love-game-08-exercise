@@ -1,16 +1,18 @@
 import { useEffect, useState } from "react"
 import Game from "../game/Game"
+import { endpoints, request } from "../../requests/request"
 
 export default function Catalog() {
 
     const [games, setGames] = useState([])
+    console.log(endpoints.games);
+    
 
     useEffect(() => {
-        fetch('http://localhost:3030/jsonstore/games')
-            .then(data => data.json())
-            .then(finalData => {
-                let info = Object.values(finalData)
-                setGames(info)
+        request('GET',endpoints.games,undefined,null)
+            .then(data => {
+                let finalData = Object.values(data)
+                setGames(finalData)
             })
             .catch(() => {
                 console.log(`fetch problem`)

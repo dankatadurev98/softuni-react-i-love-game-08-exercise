@@ -10,7 +10,7 @@ import Details from "./components/details/Details"
 import AddGame from "./components/addGames/AddGames"
 import Register from "./components/register/Register"
 import Login from "./components/login/Login"
-import Logout from "./components/logout/Logout"
+
 import Edit from "./components/edit/Edit"
 
 
@@ -60,9 +60,9 @@ function App() {
         <Route path="/games/:id/details" element={<Details />} />
         <Route path="/games/:id/edit" element={<Edit/>}/>
         <Route path="/addGame" element={<AddGame />} />
-        <Route path="/register" element={<Register user={userRegister} onRegister={registerUser} />} />
-        <Route path='/login' element={<Login user={userLogin} onLogin={loginUser} />} />
-        <Route path="/logout" element={<Logout onLogout={userLogout}/>}/>
+        <Route path="/register" element={<Register/>} />
+        <Route path='/login' element={<Login/>} />
+        
       </Routes>
       <Footer />
 
